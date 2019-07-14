@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<style>
+		body {
+			background: black;
+			font-family: "sans-serif";
+			color: #CCC;
+			font-size: 125%;
+			width: 100%;
+			overflow: hidden;
+		}
+
+		body, a { color: #CCC; }
+
+		#splash, #export {
+			position: fixed;
+			left: 50%;
+			top: 0%;
+			margin-left: -430px; /* half the elements width */
+			margin-top: 50px;
+
+			display: block;
+			background: black;
+			border: #ccc 3px solid;
+			width: 780px;
+			padding: 0px 20px;
+		}
+
+		.closebutton {
+			display: block;
+			margin: 0px auto;
+			text-align: center;
+			width: 200px;
+			border: 2px solid gray;
+			text-decoration: none;
+			margin-top: 32px;
+		}
+
+		.closebutton:hover {
+			background: gray;
+			border: 2px solid #CCC;
+		}
+
+		html, body, #drawregion, #drawregion canvas {
+			display: block;
+			margin: 0px;
+			width: 100%;
+			height: 100%;
+		}
+
+		#drawregion canvas {
+			position: absolute;
+		}
+
+		#exporttext {
+			width: 770px;
+			height: 300px;
+			border: 1px solid gray;
+			background: #000011;
+			color: #CCC;
+			font-family: "Consolas", monospace;
+			resize: none;
+		}
+	</style>
+	<script src="wtf-trace.js"></script>
+	<script src="dfdesigner.js"></script>
+	<script>
+		var DEBUG = false;
+		var splashclosed = false;
+		var spawn_creatures = ["alligators", "beak dogs", "cheetahs", "cougars", "dingoes", "elephants", "gorillas", "grizzly bears", "jaguars", "leopards", "mandrills", "polar bears", "raccoons", "saltwater crocodiles", "wolves"]
+
+		function onPageLoad() {
+			if (DEBUG) { closeSplash(); }
+
+			document.onkeydown = function(evt) {
+        		evt = evt || window.event;
+        		if (evt.keyCode == 27 || evt.keyCode == 13 || evt.keyCode == 32) { // ESC + Enter + Space
+        			closeSplash();
+        		}
+            }
+
+			loadDesigner();
+		}
+
+		function closeSplash() {
+			if (splashclosed) { return; }
+			splashclosed = true;
+
+			var splash = document.getElementById('splash');
+			splash.style.display = 'none';
+
+			var drawregion = document.getElementById('drawregion');
+			drawregion.focus();
+
+		    enableDesigner();
+		}
+
+		function closeExport() {
+			var splash = document.getElementById('export');
+			splash.style.display = 'none';
+
+			var drawregion = document.getElementById('drawregion');
+			drawregion.focus();
+		}
+	</script>
+</head>
+<body onLoad="onPageLoad()">
+
+	<div id="drawregion" tabindex="1">
+		
+	</div>
+
+	<div id="splash">
+		<h1>Quickfort Planner</h1>
+		<p>This is a web-based fortress designation tool for <a href="http://www.bay12games.com/dwarves/" target="_blank">Dwarf Fortress</a> by Bay 12 Games. You may use it to experiment with different blueprints. You can then import your blueprints into a new game or an existing save using <a href="http://www.joelpt.net/quickfort/" target="_blank">Quickfort</a>.</p>
+		<p>Start designing using either the keyboard or the mouse, ere the <script>document.write((Math.random() > 0.5 ? 'giant ' : '') + spawn_creatures[Math.floor(Math.random() * spawn_creatures.length)]);</script> get hungry.</p>
+		<a class="closebutton" href="#" onClick="closeSplash()">Strike the earth!</a>
+		<br style="clear: both" />
+	</div>
+
+	<div id="export" style="display: none">
+		<h1>Your blueprint, ready to be imported</h1>
+		<p>You did it! Copy the below code and put it into a .csv file. Quickfort can then import your blueprint into Dwarf Fortress. If you aren't yet a legendary+5 building designer, there are <a href="instructions.html" target="_blank">full instructions</a> available.</p>
+		<textarea id="exporttext" readonly>Testing!</textarea>
+		<a class="closebutton" href="#" onClick="closeExport()">Close</a>
+		<br style="clear: both" />
+	</div>
+
+</body>
+</html>
+
