@@ -1,6 +1,8 @@
 dfplanner
 =================
 
+This is a fork of the https://github.com/jvanegmond/dfplanner
+
 This is a web-based fortress designation tool for Dwarf Fortress. You may use it to experiment with different plans which will create the basic outline of your Fortress. You can then optionally export your design to QuickFort.
 
 Try out the demo here: http://insouciance.github.io/dfplanner/
