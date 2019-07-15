@@ -59,6 +59,7 @@ var tile_types = {
     bg2: 'bg2',
     bg3: 'bg3',
     dig: 'dig',
+    mark_dig: 'mark_dig',
     channel: 'channel',
     stairs_up: 'stairs_up',
     stairs_down: 'stairs_down',
@@ -73,6 +74,7 @@ var images = {
     bg2: 'bg2.png',
     bg3: 'bg3.png',
     dig: 'des_dig.png',
+    mark_dig: 'mark_dig.png',
     channel: 'des_channel.png',
     stairs_updown: 'des_updownstairs.png',
     stairs_down: 'des_upstairs.png',
@@ -366,6 +368,20 @@ function loadTools() {
     };
 
     tools.space1 = { name: "Spacer", select: function(oldtool) { cursor_tool = oldtool; } };
+
+    // Mark designation tool
+    tools.mark_dig = {
+        name: "Mark designation",
+        type: tool_type_area_square | tool_type_area_circle,
+        hotkey: "m",
+        preview: true,
+        keycode: 77,
+        run: function(map, tool_selector) {
+            tool_selector(function(x,y,z) {
+                map[z][x][y] = tile_types.mark_dig;
+            });
+        }
+    };
 
     // Inverse
     tools.inverse = {
@@ -1178,6 +1194,7 @@ function drawMenu() {
     pos_y = tile_size * 4;
 
     var n = -1; // counter for vertical position (relative)
+    logmessage("Running tool: " + tools);
     for (var tool in tools) {
         tool = tools[tool];
         n += 1;
